@@ -13,6 +13,7 @@ const element = {
 
 window.onButtonClick = async function () {
   if (await isTokenValid(Cookies.get('token'))) {
+    Cookies.set('token', tokenCode, { expires: 1 })
     redirect()
   } else {
     alert('Token验证失败')
@@ -56,6 +57,6 @@ window.isTokenValid = verifyToken
   } else {
     const tokenCode = await getToken()
     element.token.innerText = tokenCode || ''
-    Cookies.set('token', tokenCode, { expires: 1 })
+    sessionStorage.setItem('token', tokenCode)
   }
 })()
