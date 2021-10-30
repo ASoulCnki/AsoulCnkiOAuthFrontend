@@ -17,5 +17,5 @@ export async function verifyToken(token) {
   if (!token) return false
   const { data, status } = await instance.get(`/verify/${token}`)
   if (status !== 200) return false
-  return data.isAuthed || false
+  return data
 }

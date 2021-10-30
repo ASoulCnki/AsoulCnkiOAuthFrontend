@@ -1,7 +1,7 @@
 import 'virtual:windi.css'
 import Cookies from 'js-cookie'
 import { parse as QsParse } from 'qs'
-import { useMobile } from './hooks'
+import { useMobile, useCopy } from './hooks'
 import { getToken, verifyToken } from './api'
 
 const element = {
@@ -11,9 +11,14 @@ const element = {
   token: document.querySelector('#token'),
 }
 
+window.copy = useCopy('#copy', '#token')
+
 window.onButtonClick = async function () {
-  if (await isTokenValid(sessionStorage.getItem('token'))) {
+  const tokenCode = sessionStorage.getItem('token')
+  const { isAuthed } = await verifyToken(tokenCode)
+  if (isAuthed) {
     Cookies.set('token', tokenCode, { expires: 1 })
+    alert('验证成功')
     redirect()
   } else {
     alert('Token验证失败')
@@ -45,18 +50,20 @@ window.redirect = function () {
   throw 'stop exec' //中止代码继续执行
 }
 window.isTokenValid = verifyToken
-// 判断cookie中token是否仍有效
-;(async () => {
-  const token = Cookies.get('token')
 
-  if (token && (await verifyToken(token))) {
+async function init() {
+  const token = Cookies.get('token')
+  const { isAuthed, nickname, uid, createTs } = await verifyToken(token)
+  if (token && isAuthed) {
     element.board.style.display = 'none'
-    element.submitButton.value = '允许获取'
+    element.submitButton.innerText = '允许获取'
     element.submitButton.className += ' mt-4'
-    element.bottomText.innerText = '授权后24小时内您无需再次认证'
+    element.bottomText.innerText = `${nickname}(${uid})\n您已授权，授权后 24小时 内您无需再次认证\n授权时间:${createTs}`
   } else {
     const tokenCode = await getToken()
-    element.token.innerText = tokenCode || ''
+    element.token.innerText = `auth(${tokenCode})` || ''
     sessionStorage.setItem('token', tokenCode)
   }
-})()
+}
+
+init()
