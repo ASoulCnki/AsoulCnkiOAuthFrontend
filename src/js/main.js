@@ -12,7 +12,7 @@ const element = {
 }
 
 window.onButtonClick = async function () {
-  if (await isTokenValid(Cookies.get('token'))) {
+  if (await isTokenValid(sessionStorage.getItem('token'))) {
     Cookies.set('token', tokenCode, { expires: 1 })
     redirect()
   } else {
