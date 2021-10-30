@@ -7,10 +7,9 @@
     "serve": "vite preview"
   },
   "devDependencies": {
-    "autoprefixer": "^10.3.7",
-    "postcss": "^8.3.11",
-    "tailwindcss": "^2.2.17",
-    "vite": "^2.6.4"
+    "vite": "^2.6.4",
+    "vite-plugin-windicss": "^1.4.12",
+    "windicss": "^3.2.0"
   },
   "dependencies": {
     "js-cookie": "^3.0.1"
