@@ -1,44 +1,45 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ASoulCnki OAuth</title>
+    <link rel="stylesheet" href="/src/css/index.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-</head>
-
-<body>
-  <div class="flex flex-col justify-center items-center cursor-default">
-    <img src="/src/img/logo.png" />
-    <p class="text-xl">授权获取您的b站信息</p>
-    <div id="board"
-      class="flex flex-col justify-center items-center border-2 rounded-lg border-gray-200 bg-gray-50 px-8 py-2 my-5">
-      <span>
-        向b站机器人账号
-        <a target="_blank" class="text-blue-500 cursor-pointer" onclick="openChat()">
-          bili_oauth
-        </a>
-        发送消息
-      </span>
-      <p class="font-mono my-3 px-3 py-2 bg-yellow-50 text-red-500 cursor-text select-all">
-        auth(<span id="token"></span>)
-      </p>
-      以向我们证实您的身份
+  <body>
+    <div class="cursor-default flex flex-col items-center">
+      <img src="/img/logo.png" />
+      <p class="text-xl">授权获取您的b站信息</p>
+      <div id="board">
+        <span>
+          向b站机器人账号
+          <a
+            target="_blank"
+            class="cursor-pointer text-blue-500"
+            onclick="openChat()"
+          >
+            bili_oauth
+          </a>
+          发送消息
+        </span>
+        <p id="token-code">auth(<span id="token"></span>)</p>
+        以向我们证实您的身份
+      </div>
+      <button id="submit-button" onclick="onButtonClick()">我已发送</button>
+      <div class="my-4 text-sm text-center">
+        <p id="bottom_text">
+          验证码在两分钟内有效<br />
+          授权后表明您已同意
+          <a
+            href="https://message.bilibili.com/#/whisper/mid307268720"
+            target="_blank"
+            class="text-blue-500"
+            >服务协议
+          </a>
+        </p>
+      </div>
+      <script type="module" src="/src/js/main.js"></script>
     </div>
-    <div>
-      <input id="submit_btn"
-        class="w-64 bg-green-500 hover:bg-green-600 text-white text-lg cursor-pointer py-1 px-4 rounded" type="submit"
-        onclick="onButtonClick()" value="我已发送" />
-    </div>
-    <div class="my-4 text-sm text-center">
-      <p id="bottom_text">
-        验证码在两分钟内有效<br>
-        授权后表明您已同意
-        <a href="https://message.bilibili.com/#/whisper/mid307268720" target="_blank" class="text-blue-500">服务协议
-        </a>
-      </p>
-    </div>
-    <script type="module" src="/src/js/main.js"></script>
-  </div>
-</body>
-
+  </body>
 </html>

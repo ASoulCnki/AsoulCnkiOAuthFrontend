@@ -1,0 +1,14 @@
+#board {
+  @apply rounded-lg flex flex-col bg-gray-50 border-2 
+  border-gray-200 my-5 py-2 px-8 justify-center items-center;
+}
+
+#submit-button {
+  @apply rounded cursor-pointer outline-none bg-green-500 
+  text-white text-lg py-1 px-4 w-64 hover:bg-green-600;
+}
+
+#token-code {
+  @apply cursor-text font-mono bg-yellow-50 my-3 py-2 px-3 
+  text-red-500 select-all;
+}
