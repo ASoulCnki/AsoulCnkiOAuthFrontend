@@ -1,10 +1,10 @@
 html,
 body {
-  @apply dark:(bg-dark-200 text-gray-400) ;
+  @apply bg-gray-50 dark:(bg-dark-200 text-gray-400) ;
 }
 
 #board {
-  @apply rounded-lg flex flex-col bg-gray-50 border-2 
+  @apply rounded-lg flex flex-col bg-gray-100 border-2 
   border-gray-200 my-5 py-2 px-8 justify-center items-center
   dark:(bg-dark-100);
 }
@@ -14,8 +14,23 @@ body {
   text-lg py-1 px-4 transition w-64 hover:bg-green-600;
 }
 
+#token {
+  @apply bg-white rounded-md py-1 px-3 text-red-500 select-all
+    dark:(bg-gray-700 text-gray-200) ;
+}
+
 #token-code {
-  @apply rounded-md cursor-text font-mono bg-yellow-50
-  my-3 py-2 px-3 text-red-500 select-all
+  @apply rounded-md cursor-text font-mono space-x-1
+  bg-yellow-50 my-3 p-2 text-red-500
   dark:(bg-gray-600 text-gray-400) ;
+}
+
+#copy {
+  @apply cursor-pointer;
+}
+
+#bottom-text {
+  @apply border rounded-md bg-gray-100 mx-2 text-center 
+    text-base leading-relaxed py-2 px-5 text-gray-600
+    dark:(bg-dark-100 text-gray-400) ;
 }

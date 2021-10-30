@@ -21,14 +21,16 @@
           >
             bili_oauth
           </a>
-          发送消息
+          发送私信
         </span>
-        <p id="token-code">auth(<span id="token"></span>)</p>
+        <p id="token-code">
+          <span id="token"></span><span id="copy" onclick="copy()">复制</span>
+        </p>
         以向我们证实您的身份
       </div>
       <button id="submit-button" onclick="onButtonClick()">我已发送</button>
       <div class="my-4 text-sm text-center">
-        <p id="bottom_text">
+        <p id="bottom-text" class="">
           验证码在两分钟内有效<br />
           授权后表明您已同意
           <a
