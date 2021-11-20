@@ -4,6 +4,7 @@ import { parse as QsParse } from 'qs'
 import { useMobile, useCopy } from './hooks'
 import { getToken, verifyToken } from './api'
 import { toast, parseTime } from './share'
+import debounce from 'debounce'
 
 const element = {
   board: document.querySelector('#board'),
@@ -23,7 +24,7 @@ window.copy = useCopy(
   }
 )
 
-window.onButtonClick = async function () {
+window.onButtonClick = debounce(async () => {
   const tokenCode = sessionStorage.getItem('token')
   const { isAuthed } = await verifyToken(tokenCode)
   if (isAuthed) {
@@ -34,7 +35,7 @@ window.onButtonClick = async function () {
     toast('验证失败，token已刷新，请重试', 'error')
     await flushToken()
   }
-}
+}, 600)
 
 // 用于自动打开私聊窗口
 // 移动端目前只能打开到个人信息页面
