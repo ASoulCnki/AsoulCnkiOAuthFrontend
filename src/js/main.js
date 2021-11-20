@@ -2,7 +2,7 @@ import 'virtual:windi.css'
 import Cookies from 'js-cookie'
 import { parse as QsParse } from 'qs'
 import { useMobile, useCopy } from './hooks'
-import { getToken, verifyToken } from './api'
+import { getToken, verifyToken, revokeToken } from './api'
 import { toast, parseTime } from './share'
 import debounce from 'debounce'
 
@@ -84,6 +84,11 @@ async function init() {
     element.bottomText.innerText = `${nickname}(${uid})\n您已授权，授权后 24小时 内您无需再次认证\n授权时间:${parseTime(
       createTs
     )}`
+    const revokeButton = document.createElement('button')
+    revokeButton.onclick = () => revokeToken(token)
+    revokeButton.innerText = '取消授权'
+    revokeButton.className = 'btn bg-red-400'
+    document.querySelector('#main-content').appendChild(revokeButton)
   } else {
     await flushToken()
   }

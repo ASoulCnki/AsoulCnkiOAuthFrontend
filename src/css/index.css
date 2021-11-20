@@ -9,7 +9,7 @@ body {
   dark:(bg-dark-100);
 }
 
-#submit-button {
+.btn {
   @apply rounded cursor-pointer outline-none bg-green-500 text-white
   text-lg py-1 px-4 transition w-64 hover:bg-green-600;
 }

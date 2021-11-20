@@ -8,7 +8,7 @@
   </head>
 
   <body>
-    <div class="cursor-default flex flex-col items-center">
+    <div class="cursor-default flex flex-col items-center" id="main-content">
       <img src="/img/logo.png" />
       <p class="text-xl">授权获取您的b站信息</p>
       <div id="board">
@@ -28,7 +28,9 @@
         </p>
         以向我们证实您的身份
       </div>
-      <button id="submit-button" onclick="onButtonClick()">我已发送</button>
+      <button id="submit-button" class="btn" onclick="onButtonClick()">
+        我已发送
+      </button>
       <div class="my-4 text-sm text-center">
         <p id="bottom-text" class="">
           验证码在两分钟内有效<br />
