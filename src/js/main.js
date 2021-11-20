@@ -3,6 +3,7 @@ import Cookies from 'js-cookie'
 import { parse as QsParse } from 'qs'
 import { useMobile, useCopy } from './hooks'
 import { getToken, verifyToken } from './api'
+import { toast, parseTime } from './share'
 
 const element = {
   board: document.querySelector('#board'),
@@ -11,20 +12,31 @@ const element = {
   token: document.querySelector('#token'),
 }
 
-window.copy = useCopy('#copy', '#token')
+window.copy = useCopy(
+  '#copy',
+  '#token',
+  () => {
+    toast('复制成功', 'success')
+  },
+  () => {
+    toast('复制失败,请手动复制', 'error')
+  }
+)
 
 window.onButtonClick = async function () {
   const tokenCode = sessionStorage.getItem('token')
   const { isAuthed } = await verifyToken(tokenCode)
   if (isAuthed) {
     Cookies.set('token', tokenCode, { expires: 1 })
-    alert('验证成功')
+    toast('验证成功', 'success')
     redirect()
   } else {
-    alert('Token验证失败')
+    toast('验证失败', 'error')
   }
 }
 
+// 用于自动打开私聊窗口
+// 移动端目前只能打开到个人信息页面
 window.openChat = function () {
   const botUid = '307268720'
   const mobileURL = `bilibili://space/${botUid}`
@@ -58,10 +70,14 @@ async function init() {
     element.board.style.display = 'none'
     element.submitButton.innerText = '允许获取'
     element.submitButton.className += ' mt-4'
-    element.bottomText.innerText = `${nickname}(${uid})\n您已授权，授权后 24小时 内您无需再次认证\n授权时间:${createTs}`
+    element.bottomText.innerText = `${nickname}(${uid})\n您已授权，授权后 24小时 内您无需再次认证\n授权时间:${parseTime(
+      createTs
+    )}`
   } else {
     const tokenCode = await getToken()
-    element.token.innerText = `auth(${tokenCode})` || ''
+    // 前面加上 'AU' 用于标识授权操作
+    // 在存 Cookie 的时候，只存 tokenCode
+    element.token.innerText = 'AU' + tokenCode || ''
     sessionStorage.setItem('token', tokenCode)
   }
 }
