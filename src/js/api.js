@@ -8,14 +8,31 @@ const instance = axios.create({
 })
 
 export async function getToken() {
-  const { data, status } = await instance.post('/verify')
-  if (status !== 200) return null
-  return data.toString() || null
+  try {
+    const { data, status } = await instance.post('/verify')
+    if (status !== 200) return null
+    return data.toString() || null
+  } catch {
+    return null
+  }
 }
 
 export async function verifyToken(token) {
   if (!token) return false
-  const { data, status } = await instance.get(`/verify/${token}`)
+  try {
+    const { data, status } = await instance.get(`/verify/${token}`)
+    if (status !== 200) {
+      return false
+    }
+    return data
+  } catch {
+    return false
+  }
+}
+
+export async function revokeToken(token) {
+  if (!token) return false
+  const { data, status } = await instance.delete(`/verify/${token}`)
   if (status !== 200) return false
   return data
 }

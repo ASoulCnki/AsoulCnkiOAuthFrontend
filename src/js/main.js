@@ -31,7 +31,8 @@ window.onButtonClick = async function () {
     toast('验证成功', 'success')
     redirect()
   } else {
-    toast('验证失败', 'error')
+    toast('验证失败，token已刷新，请重试', 'error')
+    await flushToken()
   }
 }
 
@@ -51,6 +52,15 @@ window.openChat = function () {
 function getUrlParam() {
   return QsParse(window.location.search.substring(1))
 }
+
+async function flushToken() {
+  const tokenCode = await getToken()
+  // 前面加上 'AU' 用于标识授权操作
+  // 在存 Cookie 的时候，只存 tokenCode
+  element.token.innerText = 'AU' + tokenCode || ''
+  sessionStorage.setItem('token', tokenCode)
+}
+
 window.redirect = function () {
   const token = Cookies.get('token')
   const urlParams = getUrlParam()
@@ -74,11 +84,7 @@ async function init() {
       createTs
     )}`
   } else {
-    const tokenCode = await getToken()
-    // 前面加上 'AU' 用于标识授权操作
-    // 在存 Cookie 的时候，只存 tokenCode
-    element.token.innerText = 'AU' + tokenCode || ''
-    sessionStorage.setItem('token', tokenCode)
+    await flushToken()
   }
 }
 
