@@ -30,9 +30,11 @@ export async function verifyToken(token) {
   }
 }
 
-export async function revokeToken(token) {
+export async function revokeToken(token, uid) {
   if (!token) return false
-  const { data, status } = await instance.delete(`/verify/${token}`)
+  const { data, status } = await instance.delete(`/verify/${token}`, {
+    params: { uid },
+  })
   if (status !== 200) return false
   return data
 }

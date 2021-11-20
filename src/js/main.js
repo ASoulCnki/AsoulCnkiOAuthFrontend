@@ -85,7 +85,10 @@ async function init() {
       createTs
     )}`
     const revokeButton = document.createElement('button')
-    revokeButton.onclick = () => revokeToken(token)
+    revokeButton.onclick = () => {
+      revokeToken(token, uid)
+      Cookies.remove('token')
+    }
     revokeButton.innerText = '取消授权'
     revokeButton.className = 'btn bg-red-400'
     document.querySelector('#main-content').appendChild(revokeButton)
