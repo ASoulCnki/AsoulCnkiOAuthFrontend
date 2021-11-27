@@ -22,8 +22,7 @@ export async function verifyToken(token) {
   try {
     return await instance.get(`/verify`, {
       headers: {
-        // Authorization: token,
-        Authorization: 'jiaran',
+        Authorization: token,
       },
     })
   } catch {
@@ -36,8 +35,7 @@ export async function revokeToken(token) {
   try {
     return await instance.delete(`/verify`, {
       headers: {
-        // Authorization: token,
-        Authorization: 'jiaran',
+        Authorization: token,
       },
     })
   } catch {
