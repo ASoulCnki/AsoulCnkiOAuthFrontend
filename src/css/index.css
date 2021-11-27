@@ -6,7 +6,7 @@ body {
 #board {
   @apply rounded-lg flex flex-col bg-gray-100 border-2 
   border-gray-200 my-5 py-2 px-8 justify-center items-center
-  dark:(bg-dark-100);
+  dark:(bg-dark-100 border-dark-300 text-gray-400) ;
 }
 
 .btn {
@@ -20,17 +20,17 @@ body {
 }
 
 #token-code {
-  @apply rounded-md cursor-text font-mono space-x-1
+  @apply rounded-md cursor-text flex font-mono space-x-2
   bg-yellow-50 my-3 p-2 text-red-500
   dark:(bg-gray-600 text-gray-400) ;
 }
 
 #copy {
-  @apply cursor-pointer;
+  @apply cursor-pointer py-1;
 }
 
 #bottom-text {
-  @apply border rounded-md bg-gray-100 mx-2 text-center 
+  @apply rounded-md bg-gray-100 border-2 mx-2 text-center 
     text-base leading-relaxed py-2 px-5 text-gray-600
-    dark:(bg-dark-100 text-gray-400) ;
+    dark:(bg-dark-100 border-dark-300 text-gray-400) ;
 }
