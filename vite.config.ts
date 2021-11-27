@@ -11,5 +11,8 @@ export default defineConfig({
     fs: {
       allow: ['../'],
     },
+    proxy: {
+      '/verify': 'http://localhost/verify/',
+    },
   },
 })
