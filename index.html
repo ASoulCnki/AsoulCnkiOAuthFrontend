@@ -16,7 +16,7 @@
           向b站机器人账号
           <a
             target="_blank"
-            class="cursor-pointer text-blue-500"
+            class="cursor-pointer font-bold text-blue-500"
             onclick="openChat()"
           >
             bili_oauth
@@ -27,18 +27,23 @@
           <span id="token"></span><span id="copy" onclick="copy()">复制</span>
         </p>
         以向我们证实您的身份
+        <p class="text-sm py-3">
+          遇到问题? 点此<span
+            class="cursor-pointer px-1 text-blue-600"
+            onclick="flushToken()"
+            >刷新token</span
+          >
+        </p>
       </div>
       <button id="submit-button" class="btn">我已发送</button>
-      <div class="my-4 text-sm text-center">
-        <p id="bottom-text" class="">
+      <div class="my-4">
+        <p id="bottom-text">
           验证码在两分钟内有效<br />
           授权后表明您已同意
-          <a
-            href="https://message.bilibili.com/#/whisper/mid307268720"
-            target="_blank"
-            class="text-blue-500"
-            >服务协议
-          </a>
+          <a href="" target="_blank" class="text-blue-500">服务协议 </a>
+          <br />
+          如果您无法正常登陆<br />
+          请不要频繁向机器人账号发送验证私信
         </p>
       </div>
       <script type="module" src="/src/js/main.js"></script>
