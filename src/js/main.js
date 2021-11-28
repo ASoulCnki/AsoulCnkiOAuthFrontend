@@ -27,7 +27,6 @@ window.copy = useCopy(
 const verify = debounce(async () => {
   const tokenCode = sessionStorage.getItem('token')
   const { data } = await verifyToken(tokenCode)
-  console.log(data)
   if (data && data.code == 0) {
     Cookies.set('token', tokenCode, { expires: 1 })
     Cookies.set('time', new Date() * 1, { expires: 1 })
@@ -36,8 +35,7 @@ const verify = debounce(async () => {
       location.reload()
     }, 2500)
   } else {
-    toast('验证失败，token已刷新，请重试', 'error')
-    await flushToken()
+    toast('验证失败，请稍后重试', 'error')
   }
 }, 600)
 
@@ -82,13 +80,23 @@ async function flushToken() {
   sessionStorage.setItem('token', tokenCode)
 }
 
+window.flushToken = flushToken
 window.isTokenValid = verifyToken
 
 async function init() {
-  const token = Cookies.get('token')
-  if (!token) {
+  const removeCookie = () => {
+    Cookies.remove('token')
+    Cookies.remove('time')
+  }
+
+  const notLogin = async () => {
     await flushToken()
     element.submitButton.onclick = verify
+  }
+
+  const token = Cookies.get('token')
+  if (!token) {
+    await notLogin()
     return
   }
   const { data } = await verifyToken(token)
@@ -106,13 +114,12 @@ async function init() {
     const revokeButton = document.createElement('button')
     revokeButton.onclick = async () => {
       const { data } = await revokeToken(token)
-      if (data.code != 0) {
+      if (data && data.code == 0) {
+        toast('注销成功', 'success')
+      } else {
         toast('当前未登录', 'error')
-        return
       }
-      Cookies.remove('token')
-      Cookies.remove('time')
-      toast('注销成功', 'success')
+      removeCookie()
       setTimeout(() => {
         location.reload()
       }, 2500)
@@ -120,6 +127,10 @@ async function init() {
     revokeButton.innerText = '取消授权'
     revokeButton.className = 'btn bg-red-400 hover:bg-red-600'
     document.querySelector('#main-content').appendChild(revokeButton)
+  } else {
+    toast('登陆校验失败', 'error')
+    removeCookie()
+    await notLogin()
   }
 }
 
