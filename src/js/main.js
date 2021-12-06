@@ -2,7 +2,7 @@ import 'virtual:windi.css'
 import Cookies from 'js-cookie'
 import { parse as QsParse } from 'qs'
 import { useMobile, useCopy } from './hooks'
-import { getToken, verifyToken, revokeToken } from './api'
+import { getToken, verifyToken, revokeToken, getTempToken } from './api'
 import { toast, parseTime } from './share'
 import debounce from 'debounce'
 
@@ -40,15 +40,20 @@ const verify = debounce(async () => {
 }, 600)
 
 const confirm = debounce(async () => {
-  const redirect = function () {
-    const token = Cookies.get('token')
-    const urlParams = getUrlParam()
-    if (!urlParams.redirect_uri) {
-      return
-    }
-
-    window.location.href = urlParams.redirect_uri + '#token=' + token
+  const redirect = async function () {
+    const token = data.data.token
+    window.location.href = params.redirect_uri + '#token=' + token
     throw 'stop exec' //中止代码继续执行
+  }
+
+  const params = getUrlParam()
+  if (!params.redirect_uri) return
+
+  const { data } = await getTempToken(Cookies.get('token'))
+
+  if (!data || data.code != 0) {
+    toast('获取授权码失败', 'error')
+    return
   }
 
   toast('将为您自动跳转', 'success')
@@ -112,7 +117,7 @@ async function init() {
       time
     )}\n您也可以点击下方 红色按钮 手动取消授权`
     const revokeButton = document.createElement('button')
-    revokeButton.onclick = async () => {
+    revokeButton.onclick = debounce(async () => {
       const { data } = await revokeToken(token)
       if (data && data.code == 0) {
         toast('注销成功', 'success')
@@ -123,7 +128,8 @@ async function init() {
       setTimeout(() => {
         location.reload()
       }, 2500)
-    }
+    })
+
     revokeButton.innerText = '取消授权'
     revokeButton.className = 'btn bg-red-400 hover:bg-red-600'
     document.querySelector('#main-content').appendChild(revokeButton)

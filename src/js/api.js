@@ -42,3 +42,16 @@ export async function revokeToken(token) {
     return { code: 401 }
   }
 }
+
+export async function getTempToken(token) {
+  if (!token) return false
+  try {
+    return await instance.get(`/code`, {
+      headers: {
+        Authorization: token,
+      },
+    })
+  } catch {
+    return { code: 401 }
+  }
+}
