@@ -55,3 +55,19 @@ export async function getTempToken(token) {
     return { code: 401 }
   }
 }
+
+export async function getBotUID() {
+  let uid = sessionStorage.getItem('botUID')
+
+  if (!uid) {
+    const { data, status } = await instance.get('/uid')
+    if (status !== 200) return null
+
+    if (data.uid) {
+      uid = data.uid
+      sessionStorage.setItem('botUID', uid)
+    }
+  }
+
+  return uid
+}

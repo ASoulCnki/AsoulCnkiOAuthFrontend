@@ -2,7 +2,13 @@ import 'virtual:windi.css'
 import Cookies from 'js-cookie'
 import { parse as QsParse } from 'qs'
 import { useMobile, useCopy } from './hooks'
-import { getToken, verifyToken, revokeToken, getTempToken } from './api'
+import {
+  getToken,
+  verifyToken,
+  revokeToken,
+  getTempToken,
+  getBotUID,
+} from './api'
 import { toast, parseTime } from './share'
 import debounce from 'debounce'
 
@@ -23,6 +29,8 @@ window.copy = useCopy(
     toast('复制失败,请手动复制', 'error')
   }
 )
+
+let botUid
 
 const verify = debounce(async () => {
   const tokenCode = sessionStorage.getItem('token')
@@ -47,7 +55,10 @@ const confirm = debounce(async () => {
   }
 
   const params = getUrlParam()
-  if (!params.redirect_uri) return
+  if (!params.redirect_uri) {
+    toast('没有填写需要跳转的网址捏', 'error')
+    return
+  }
 
   const { data } = await getTempToken(Cookies.get('token'))
 
@@ -62,8 +73,7 @@ const confirm = debounce(async () => {
 
 // 用于自动打开私聊窗口
 // 移动端目前只能打开到个人信息页面
-window.openChat = function () {
-  const botUid = '307268720'
+window.openChat = async function () {
   const mobileURL = `bilibili://space/${botUid}`
   const pcURL = `https://message.bilibili.com/#/whisper/mid${botUid}`
   const url = useMobile ? mobileURL : pcURL
@@ -89,6 +99,8 @@ window.flushToken = flushToken
 window.isTokenValid = verifyToken
 
 async function init() {
+  botUid = await getBotUID()
+
   const removeCookie = () => {
     Cookies.remove('token')
     Cookies.remove('time')

@@ -5,7 +5,7 @@ body {
 
 #board {
   @apply rounded-lg flex flex-col bg-gray-100 border-2 
-  border-gray-200 my-5 py-2 px-8 justify-center items-center
+  border-gray-200 my-5 mx-2 p-4 justify-center items-center
   dark:(bg-dark-100 border-dark-300 text-gray-400) ;
 }
 
@@ -16,7 +16,7 @@ body {
 
 #token {
   @apply bg-white rounded-md py-1 px-3 text-red-500 select-all
-    dark:(bg-gray-700 text-gray-200) ;
+    dark:(bg-gray-700 text-gray-400) ;
 }
 
 #token-code {
