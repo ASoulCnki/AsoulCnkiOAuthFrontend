@@ -36,8 +36,8 @@ const verify = debounce(async () => {
   const tokenCode = sessionStorage.getItem('token')
   const { data } = await verifyToken(tokenCode)
   if (data && data.code == 0) {
-    Cookies.set('token', tokenCode, { expires: 1 })
-    Cookies.set('time', new Date() * 1, { expires: 1 })
+    Cookies.set('token', tokenCode, { expires: 7 })
+    Cookies.set('time', new Date() * 1, { expires: 7 })
     toast('验证成功', 'success')
     setTimeout(() => {
       location.reload()
@@ -118,14 +118,14 @@ async function init() {
   }
   const { data } = await verifyToken(token)
   if (data && data.code == 0) {
-    const time = parseInt(Cookies.get('time')) + 86400000
+    const time = parseInt(Cookies.get('time')) + 86400000 * 7
     element.board.style.display = 'none'
     element.submitButton.innerText = '允许获取'
     element.submitButton.className += ' mt-4'
     element.submitButton.onclick = confirm
     element.bottomText.innerText = `用户 UID${
       data.uid
-    }\n您已授权，授权后 24小时 内您无需再次认证,\n 授权过期时间 ${parseTime(
+    }\n您已授权，授权后 7天 内您无需再次认证,\n 授权过期时间 ${parseTime(
       time
     )}\n您也可以点击下方 红色按钮 手动取消授权`
     const revokeButton = document.createElement('button')
