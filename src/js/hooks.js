@@ -10,7 +10,7 @@ function isMobileUserAgent() {
 // 判断是否是移动端
 function isMobilePlatform() {
   const plt = navigator.platform
-  return (
+  return !(
     plt.indexOf('Win') > -1 ||
     plt.indexOf('Mac') > -1 ||
     plt.indexOf('Linux') > -1
