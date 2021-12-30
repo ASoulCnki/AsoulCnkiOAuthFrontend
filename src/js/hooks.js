@@ -17,7 +17,12 @@ function isMobilePlatform() {
   )
 }
 
-export const useMobile = isMobilePlatform() && isMobileUserAgent()
+// 判断是否是ios(13)设备
+function isIOSMobile() {
+  return (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+}
+
+export const useMobile = (isMobilePlatform() && isMobileUserAgent()) || isIOSMobile()
 
 /**
  * 复制指定DOM元素的内容
