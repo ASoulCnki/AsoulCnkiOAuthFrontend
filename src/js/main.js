@@ -36,8 +36,9 @@ const verify = debounce(async () => {
   const tokenCode = sessionStorage.getItem('token')
   const { data } = await verifyToken(tokenCode)
   if (data && data.code == 0) {
-    Cookies.set('token', tokenCode, { expires: 7 })
-    Cookies.set('time', new Date() * 1, { expires: 7 })
+    const opts = { expires: 7, sameSite: 'none', secure: true }
+    Cookies.set('token', tokenCode, opts)
+    Cookies.set('time', new Date() * 1, opts)
     toast('验证成功', 'success')
     setTimeout(() => {
       location.reload()
@@ -55,20 +56,28 @@ const confirm = debounce(async () => {
   }
 
   const params = getUrlParam()
-  if (!params.redirect_uri) {
-    toast('没有填写需要跳转的网址捏', 'error')
-    return
-  }
 
   const { data } = await getTempToken(Cookies.get('token'))
 
   if (!data || data.code != 0) {
-    toast('获取授权码失败', 'error')
-    return
+    return toast('获取授权码失败', 'error')
   }
 
-  toast('将为您自动跳转', 'success')
-  setTimeout(redirect, 2500)
+  if (params.postMessage !== undefined) {
+    if (!params.origin) {
+      console.log('未指定domain')
+      params.origin = '*'
+    }
+
+    console.log('post message')
+    window.postMessage('123', { targetOrigin: '*' })
+  } else {
+    if (!params.redirect_uri) {
+      return toast('没有填写需要跳转的网址捏', 'error')
+    }
+    toast('将为您自动跳转', 'success')
+    setTimeout(redirect, 2500)
+  }
 }, 600)
 
 // 用于自动打开私聊窗口
