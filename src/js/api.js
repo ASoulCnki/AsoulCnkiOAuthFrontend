@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const devAPI = 'http://api.asoulcnki.asia/oauth/v1'
+const devAPI = 'https://api.asoulcnki.asia/oauth/v1'
 
 const instance = axios.create({
   baseURL: devAPI,
